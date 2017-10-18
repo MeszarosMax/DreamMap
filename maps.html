@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h1 {
+	color : LightSteelBlue;
+	font-size: 30px;
+}
+body {
+	color: SkyBlue;
+    background-color: azure;
+}
+</style>
+</head>
+<body>
+ 
+
+<h1>Dream Vacation Map</h1>
+<div class="w3-bar w3-black">
+    <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'Home')">Home</button>
+    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'South Pasadena')">South Pasadena</button> 
+    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Paris')">Paris</button>
+    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'New York')">New York</button>
+  </div>
+  
+  
+   <div id="Home" class="w3-container w3-border city">
+    <h2>Home Page</h2>
+     <div id="southpas" style="width:600px;height:400px;"></div>
+  </div>
+  
+  <div id="South Pasadena" class="w3-container w3-border city">
+    <h2>South Pasadena</h2> 
+    <p> I start here, so thats why thats here, I guess I would chill here for a while. Because 
+    I like my house, and the stuff in it, i'd probably stay here for a while. Relaxing in a familiar place is an important part of vacation, in my opinion, and so
+    this is an intergral part of my vacation.</p>
+    <img src = sopas.jpg alt = South pasadena height = 300/>
+ </div>
+  
+  </div>
+  <div id="Paris" class="w3-container w3-border city" style="display:none">
+    <h2>Paris</h2>
+    <p> Paris, France, is a place many people go to on vacation, but I go for a different reason. North of Paris, their is a factory,
+    the Selmer factory. If you go to the Selmer factory, you will be able to buy instruments (bass clarinets in particular) for less than 
+    through mail order in the US (including flight cost, food, and housing), like, a couple hundred less, and you can get it adjusted for free, to make it perfect (for you). France is home to other music
+    companys, like Vandoren, LeBlanc, Buffet, and many others I'm sure. So checking those out would be cool too. Plus its Paris so you can get some pretty good food.</p>
+    <img src = Paris.jpg alt = paris height = 300/>
+    <img src = Paris2.jpg alt = paris height = 300/>
+   </div>
+  <div id="New York" class="w3-container w3-border city" style="display:none">
+    <h2>New York</h2>
+    <p> New York, New York is home to several things of intrest. the most interesting, to me, is the Vandoren Studio, which has many mouthpieces and ligatures, and reeds
+    that you can try for free, here I would buy a perfect set up for my new bass clarinet. Miles Davis and Dizzy Gillespie are both buried in New York,
+    so you can maybe vist there graves. Typically New York will have some sort of interesting gathering or similar meeting, these could be interesting.</p>
+    <p> The map on this page wont display unless you hit "inspect"</p>
+    <img src = NY.jpg alt = New York height = 300/>
+    <div id="googleMapsat" style="width:600px;height:600px;"></div>
+    </div>
+   
+<script>
+function openCity(evt, cityName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("city");
+  for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " w3-red";
+}
+</script>
+</div>
+<div id="googleMap" style="width:600px;height:600px;"></div>
+
+<script>
+function myMap() {
+	//first map
+	var mapCenter = new google.maps.LatLng(40.764255,-73.9857377);
+	var mapProp= {
+		center:mapCenter,
+		zoom:50,
+		mapTypeId: google.maps.MapTypeId.SATELLITE
+	};
+	//the map has to be created up here before you can add markers to it
+	//notice that it's below mapProp because map needs mapProp to exist to work.
+	var map=new google.maps.Map(document.getElementById("googleMapsat"),mapProp);
+
+
+	var vandoren = new google.maps.LatLng(40.764259,-73.9857377);
+
+	var vandorenMarker = new google.maps.Marker({position: vandoren});
+	vandorenMarker.setMap(map);
+
+	//second map
+
+	//latitude & longitude of where the map is centered
+	//how zoomed in the map is
+	//mapProp is a dictionary similar to how your css styles worked
+	//west and south have negative values for latitude & longitude
+	var mapCenter = new google.maps.LatLng(34.1161,-63);
+	var mapProp= {
+		center:mapCenter,
+		zoom:2,
+	};
+	//the map has to be created up here before you can add markers to it
+	//notice that it's below mapProp because map needs mapProp to exist to work.
+	var map=new google.maps.Map(document.getElementById("southpas"),mapProp);
+
+	//selmer
+	var selmer = new google.maps.LatLng(48.9814734,1.7131392);
+	//LAX
+	var sopas = new google.maps.LatLng(34.1121633,-118.1737466);
+	//new zealand near auckland
+	var vandoren = new google.maps.LatLng(40.764259,-73.9857377);
+	//budapest, hungary
+	var capital = new google.maps.LatLng(47.4813602,18.9902196);
+
+	//add some markers to the map for each spot
+	//step 1: create the marker with a descriptive var name
+	//the position is the LatLng object you created earlier
+	var selmerMarker = new google.maps.Marker({position: selmer});
+	var sopasMarker = new google.maps.Marker({position: sopas});
+	var vandorenMarker = new google.maps.Marker({position: vandoren});
+	//step 2: add it to the map
+	selmerMarker.setMap(map);
+	sopasMarker.setMap(map);
+	vandorenMarker.setMap(map);
+	//polyline
+	var myTrip = [sopas,selmer,vandoren];
+	var flightPath = new google.maps.Polyline({
+	  path:myTrip,
+	  strokeColor:"#4B00B2",
+	  strokeOpacity:0.8,
+	  strokeWeight:2
+  
+	});
+	flightPath.setMap(map);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuB5XHMzjq0JTk0aBpryonk03WhFFmsdg&callback=myMap"></script>
+
+</body>
+</html>
